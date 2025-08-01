@@ -1,9 +1,8 @@
 {
-    "name": "my-supabase-app",
+    "name": "strangerdanger",
     "version": "1.0.0",
     "scripts": {
-      "build": "node build.js"
-    },
-    "dependencies": {},
-    "devDependencies": {}
+      "build": "node build.js",
+      "dev": "cd src && python -m http.server 8000"
+    }
   }
