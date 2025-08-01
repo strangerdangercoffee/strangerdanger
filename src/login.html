@@ -53,8 +53,8 @@
                   <button type="submit" class="auth-button">Sign In</button>
                 </form>
                 <div class="form-links">
-                  <a href="#" class="form-link" onclick="showForm('forgot-password')">Forgot Password?</a>
-                  <a href="#" class="form-link" onclick="showForm('signup')">Don't have an account? Sign up</a>
+                  <a href="#" class="form-link" data-form="forgot-password">Forgot Password?</a>
+                  <a href="#" class="form-link" data-form="signup">Don't have an account? Sign up</a>
                 </div>
               </div>
 
@@ -81,7 +81,7 @@
                   <button type="submit" class="auth-button">Create Account</button>
                 </form>
                 <div class="form-links">
-                  <a href="#" class="form-link" onclick="showForm('signin')">Already have an account? Sign in</a>
+                  <a href="#" class="form-link" data-form="signin">Already have an account? Sign in</a>
                 </div>
               </div>
 
@@ -96,7 +96,7 @@
                   <button type="submit" class="auth-button">Send Reset Link</button>
                 </form>
                 <div class="form-links">
-                  <a href="#" class="form-link" onclick="showForm('signin')">Back to Sign In</a>
+                  <a href="#" class="form-link" data-form="signin">Back to Sign In</a>
                 </div>
               </div>
             </div>
@@ -120,7 +120,6 @@
         </section>
       </main>
     </div>
-    
     <script type="module" src="auth.js"></script>
   </body>
 </html> 

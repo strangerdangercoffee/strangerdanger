@@ -28,6 +28,9 @@ function showForm(formType) {
   hideMessages();
 }
 
+// Make showForm available globally for onclick handlers
+window.showForm = showForm;
+
 // Message handling functions
 function showMessage(type, message) {
   hideMessages();
