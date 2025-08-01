@@ -1,10 +1,7 @@
 // Initialize Supabase client using config
-import CONFIG from './config.js';
-import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
-
-const supabase = createClient(
-  CONFIG.SUPABASE_URL,
-  CONFIG.SUPABASE_ANON_KEY
+const supabase = window.supabase.createClient(
+  window.SUPABASE_CONFIG.url,
+  window.SUPABASE_CONFIG.anonKey
 );
 
 // Global variables
