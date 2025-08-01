@@ -1741,6 +1741,32 @@ section {
   font-weight: 400;
 }
 
+.admin-user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.admin-badge {
+  background-color: #2c2825;
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-email {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #666666;
+}
+
 /* Filters Section */
 .filters-section {
   background-color: #f8f8f8;

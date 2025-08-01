@@ -51,23 +51,45 @@ async function signOut() {
   }
 }
 
-// Check if user is admin (you can modify this logic as needed)
+// Check if user is admin
 async function checkAdminAccess() {
   try {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
 
     if (userError || !user) {
+      console.log('No authenticated user found, redirecting to login');
       window.location.href = 'login.html';
       return;
     }
 
-    // For now, we'll allow access to anyone who is logged in
-    // You can add specific admin logic here later
+    // Check if user has admin role in raw_app_meta_data
+    const userMetaData = user.app_metadata || {};
+    const userRole = userMetaData.role;
+    
+    if (userRole !== 'admin') {
+      console.log('User does not have admin role, redirecting to dashboard');
+      showMessage('error', 'Access denied. Admin privileges required.');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 2000);
+      return;
+    }
+
     console.log('Admin access granted for user:', user.email);
+    
+    // Display admin user email
+    const adminEmailElement = document.getElementById('admin-email');
+    if (adminEmailElement) {
+      adminEmailElement.textContent = user.email;
+    }
 
   } catch (error) {
     showMessage('error', 'Error checking admin access.');
     console.error('Admin access check error:', error);
+    // Redirect to login on error
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 2000);
   }
 }
 
