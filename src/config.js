@@ -6,5 +6,3 @@ const CONFIG = {
 
 // Make config available globally for other scripts
 window.SUPABASE_CONFIG = CONFIG;
-
-export default CONFIG;
