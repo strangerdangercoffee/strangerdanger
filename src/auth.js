@@ -224,7 +224,21 @@ async function checkAuthStatus() {
 }
 
 // Initialize auth status check when page loads
-document.addEventListener('DOMContentLoaded', checkAuthStatus);
+document.addEventListener('DOMContentLoaded', () => {
+  checkAuthStatus();
+  
+  // Add event listeners for form switching links
+  const formLinks = document.querySelectorAll('.form-link');
+  formLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const formType = link.getAttribute('data-form');
+      if (formType) {
+        showForm(formType);
+      }
+    });
+  });
+});
 
 // Listen for auth state changes
 supabase.auth.onAuthStateChange((event, session) => {
