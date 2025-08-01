@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Admin Dashboard - Stranger Danger Coffee</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <div class="element-default">
+      <!-- Navigation -->
+      <nav class="nav">
+        <div class="nav-container">
+          <div class="logo">
+            <span class="logo-line-1">Stranger</span>
+            <span class="logo-line-2">Danger Coffee</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html" class="nav-link">HOME</a>
+            <a href="about.html" class="nav-link">ABOUT</a>
+            <a href="contact.html" class="nav-link">CONTACT</a>
+            <button class="logout-btn" onclick="signOut()">LOG OUT</button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Admin Dashboard Section -->
+        <section class="admin-section">
+          <div class="admin-container">
+            <div class="admin-header">
+              <h1 class="admin-title">Admin Dashboard</h1>
+              <p class="admin-subtitle">Manage service requests and business accounts</p>
+            </div>
+
+            <!-- Filters Section -->
+            <div class="filters-section">
+              <div class="filter-controls">
+                <div class="filter-group">
+                  <label for="business-filter">Filter by Business:</label>
+                  <select id="business-filter" onchange="filterRequests()">
+                    <option value="">All Businesses</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="status-filter">Filter by Status:</label>
+                  <select id="status-filter" onchange="filterRequests()">
+                    <option value="">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="service-filter">Filter by Service:</label>
+                  <select id="service-filter" onchange="filterRequests()">
+                    <option value="">All Services</option>
+                    <option value="coffee-refill">Coffee Refill</option>
+                    <option value="nitrogen-refill">Nitrogen Refill</option>
+                    <option value="kegerator-maintenance">Kegerator Maintenance</option>
+                  </select>
+                </div>
+                <button class="refresh-btn" onclick="loadAllRequests()">Refresh</button>
+              </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+              <div class="stat-card">
+                <h3>Total Requests</h3>
+                <span id="total-requests">0</span>
+              </div>
+              <div class="stat-card">
+                <h3>Pending</h3>
+                <span id="pending-requests">0</span>
+              </div>
+              <div class="stat-card">
+                <h3>In Progress</h3>
+                <span id="in-progress-requests">0</span>
+              </div>
+              <div class="stat-card">
+                <h3>Completed</h3>
+                <span id="completed-requests">0</span>
+              </div>
+            </div>
+
+            <!-- Requests Table -->
+            <div class="requests-table-section">
+              <h2 class="section-title">Service Requests</h2>
+              <div class="table-container">
+                <table class="requests-table" id="requests-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Business</th>
+                      <th>Service</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="requests-tbody">
+                    <tr>
+                      <td colspan="5" class="loading">Loading requests...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Business Profiles Section -->
+            <div class="businesses-section">
+              <h2 class="section-title">Business Profiles</h2>
+              <div class="businesses-grid" id="businesses-grid">
+                <div class="loading">Loading business profiles...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Status Update Modal -->
+        <div class="modal-overlay hidden" id="status-modal">
+          <div class="modal">
+            <div class="modal-header">
+              <h3 id="status-modal-title">Update Request Status</h3>
+              <button class="close-btn" onclick="closeStatusModal()">&times;</button>
+            </div>
+            <form class="modal-form" id="status-form">
+              <div class="form-group">
+                <label for="status-select">New Status:</label>
+                <select id="status-select" required>
+                  <option value="pending">Pending</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="status-notes">Notes (Optional):</label>
+                <textarea id="status-notes" rows="3" placeholder="Add any notes about this status change..."></textarea>
+              </div>
+              <div class="modal-buttons">
+                <button type="button" class="cancel-btn" onclick="closeStatusModal()">Cancel</button>
+                <button type="submit" class="save-btn">Update Status</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div class="message-container">
+          <div class="message success hidden" id="success-message"></div>
+          <div class="message error hidden" id="error-message"></div>
+        </div>
+      </main>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html> 

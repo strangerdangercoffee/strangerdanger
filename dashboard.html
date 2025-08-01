@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Dashboard - Stranger Danger Coffee</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <div class="element-default">
+      <!-- Navigation -->
+      <nav class="nav">
+        <div class="nav-container">
+          <div class="logo">
+            <span class="logo-line-1">Stranger</span>
+            <span class="logo-line-2">Danger Coffee</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html" class="nav-link">HOME</a>
+            <a href="about.html" class="nav-link">ABOUT</a>
+            <a href="contact.html" class="nav-link">CONTACT</a>
+            <button class="logout-btn" onclick="signOut()">LOG OUT</button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Dashboard Section -->
+        <section class="dashboard-section">
+          <div class="dashboard-container">
+            <div class="dashboard-header">
+              <h1 class="dashboard-title">Dashboard</h1>
+              <p class="dashboard-subtitle">Welcome back to your Stranger Danger Coffee account</p>
+            </div>
+
+            <div class="dashboard-content">
+              <!-- Left Side - Account Information -->
+              <div class="account-info">
+                <h2 class="section-title">Account Information</h2>
+                <div class="info-card">
+                  <div class="info-item">
+                    <label>Business Name:</label>
+                    <span id="business-name-display">Loading...</span>
+                    <button class="edit-btn" onclick="editField('business-name')">Edit</button>
+                  </div>
+                  <div class="info-item">
+                    <label>Business Address:</label>
+                    <span id="business-address-display">Loading...</span>
+                    <button class="edit-btn" onclick="editField('business-address')">Edit</button>
+                  </div>
+                  <div class="info-item">
+                    <label>Point of Contact:</label>
+                    <span id="point-of-contact-display">Loading...</span>
+                    <button class="edit-btn" onclick="editField('point-of-contact')">Edit</button>
+                  </div>
+                  <div class="info-item">
+                    <label>Phone Number:</label>
+                    <span id="phone-number-display">Loading...</span>
+                    <button class="edit-btn" onclick="editField('phone-number')">Edit</button>
+                  </div>
+                  <div class="info-item">
+                    <label>Office Size:</label>
+                    <span id="office-size-display">Loading...</span>
+                    <button class="edit-btn" onclick="editField('office-size')">Edit</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Side - Service Requests -->
+              <div class="service-requests">
+                <h2 class="section-title">Request Services</h2>
+                <div class="service-cards">
+                  <div class="service-card" onclick="selectService('coffee-refill')">
+                    <div class="service-icon">☕</div>
+                    <h3>Coffee Refill</h3>
+                    <p>Request a fresh coffee refill for your office</p>
+                  </div>
+                  <div class="service-card" onclick="selectService('nitrogen-refill')">
+                    <div class="service-icon">💨</div>
+                    <h3>Nitrogen Refill</h3>
+                    <p>Get your nitro system refilled</p>
+                  </div>
+                  <div class="service-card" onclick="selectService('kegerator-maintenance')">
+                    <div class="service-icon">🔧</div>
+                    <h3>Kegerator Maintenance</h3>
+                    <p>Schedule maintenance for your kegerator</p>
+                  </div>
+                </div>
+                
+                <div class="service-submit-section" id="service-submit-section" style="display: none;">
+                  <div class="selected-service-info">
+                    <h4>Selected Service: <span id="selected-service-name"></span></h4>
+                  </div>
+                  <button class="submit-service-btn" onclick="submitServiceRequest()">Submit Request</button>
+                </div>
+
+                <!-- Recent Service Requests -->
+                <div class="recent-requests">
+                  <h3 class="subsection-title">Recent Service Requests</h3>
+                  <div class="requests-list" id="requests-list">
+                    <div class="loading">Loading recent requests...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Edit Modal -->
+        <div class="modal-overlay hidden" id="edit-modal">
+          <div class="modal">
+            <div class="modal-header">
+              <h3 id="modal-title">Edit Information</h3>
+              <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form class="modal-form" id="edit-form">
+              <div class="form-group">
+                <label id="modal-label">Field</label>
+                <input type="text" id="modal-input" required>
+              </div>
+              <div class="modal-buttons">
+                <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="save-btn">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div class="message-container">
+          <div class="message success hidden" id="success-message"></div>
+          <div class="message error hidden" id="error-message"></div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html> 

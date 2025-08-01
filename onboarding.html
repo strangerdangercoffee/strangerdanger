@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Onboarding - Stranger Danger Coffee</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  </head>
+  <body>
+    <div class="element-default">
+      <!-- Navigation -->
+      <nav class="nav">
+        <div class="nav-container">
+          <div class="logo">
+            <span class="logo-line-1">Stranger</span>
+            <span class="logo-line-2">Danger Coffee</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html" class="nav-link">HOME</a>
+            <a href="about.html" class="nav-link">ABOUT</a>
+            <a href="contact.html" class="nav-link">CONTACT</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Onboarding Section -->
+        <section class="onboarding-section">
+          <div class="onboarding-container">
+            <div class="onboarding-header">
+              <h1 class="onboarding-title">Welcome to Stranger Danger Coffee</h1>
+              <p class="onboarding-subtitle">Let's get to know your business better</p>
+            </div>
+
+            <!-- Onboarding Form -->
+            <div class="onboarding-form-container">
+              <form class="onboarding-form" id="onboarding-form">
+                <div class="form-group">
+                  <label for="business-name">Business Name *</label>
+                  <input type="text" id="business-name" name="businessName" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="business-address">Business Address *</label>
+                  <textarea id="business-address" name="businessAddress" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label for="office-size">Office Size (Number of People) *</label>
+                  <input type="number" id="office-size" name="officeSize" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="point-of-contact">Point of Contact *</label>
+                  <input type="text" id="point-of-contact" name="pointOfContact" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="phone-number">Phone Number *</label>
+                  <input type="tel" id="phone-number" name="phoneNumber" required>
+                </div>
+                
+                <button type="submit" class="onboarding-button">Complete Setup</button>
+              </form>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div class="message-container">
+              <div class="message success hidden" id="success-message"></div>
+              <div class="message error hidden" id="error-message"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer Image Section -->
+        <section class="footer-image">
+          <img src="nitro-pour.jpg" alt="Coffee being poured from tap" />
+          <div class="image-overlay">
+            <span class="location">Austin, TX</span>
+            <span class="brand">SD.</span>
+            <span class="contact">Contact</span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="onboarding.js"></script>
+  </body>
+</html> 

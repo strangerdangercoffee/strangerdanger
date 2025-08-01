@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Login - Stranger Danger Coffee</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <div class="element-default">
+      <!-- Navigation -->
+      <nav class="nav">
+        <div class="nav-container">
+          <div class="logo">
+            <span class="logo-line-1">Stranger</span>
+            <span class="logo-line-2">Danger Coffee</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html" class="nav-link">HOME</a>
+            <a href="about.html" class="nav-link">ABOUT</a>
+            <a href="contact.html" class="nav-link">CONTACT</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Login Section -->
+        <section class="login-section">
+          <div class="login-container">
+            <div class="login-header">
+              <h1 class="login-title">Welcome Back</h1>
+              <p class="login-subtitle">Sign in to your Stranger Danger Coffee account</p>
+            </div>
+
+            <!-- Auth Forms Container -->
+            <div class="auth-forms">
+              <!-- Sign In Form -->
+              <div class="auth-form" id="signin-form">
+                <h2 class="form-title">Sign In</h2>
+                <form class="form" id="signin">
+                  <div class="form-group">
+                    <label for="signin-email">Email</label>
+                    <input type="email" id="signin-email" name="email" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="signin-password">Password</label>
+                    <input type="password" id="signin-password" name="password" required>
+                  </div>
+                  <button type="submit" class="auth-button">Sign In</button>
+                </form>
+                <div class="form-links">
+                  <a href="#" class="form-link" onclick="showForm('forgot-password')">Forgot Password?</a>
+                  <a href="#" class="form-link" onclick="showForm('signup')">Don't have an account? Sign up</a>
+                </div>
+              </div>
+
+              <!-- Sign Up Form -->
+              <div class="auth-form hidden" id="signup-form">
+                <h2 class="form-title">Create Account</h2>
+                <form class="form" id="signup">
+                  <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" name="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="email" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="password" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" name="confirmPassword" required>
+                  </div>
+                  <button type="submit" class="auth-button">Create Account</button>
+                </form>
+                <div class="form-links">
+                  <a href="#" class="form-link" onclick="showForm('signin')">Already have an account? Sign in</a>
+                </div>
+              </div>
+
+              <!-- Forgot Password Form -->
+              <div class="auth-form hidden" id="forgot-password-form">
+                <h2 class="form-title">Reset Password</h2>
+                <form class="form" id="forgot-password">
+                  <div class="form-group">
+                    <label for="reset-email">Email</label>
+                    <input type="email" id="reset-email" name="email" required>
+                  </div>
+                  <button type="submit" class="auth-button">Send Reset Link</button>
+                </form>
+                <div class="form-links">
+                  <a href="#" class="form-link" onclick="showForm('signin')">Back to Sign In</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div class="message-container">
+              <div class="message success hidden" id="success-message"></div>
+              <div class="message error hidden" id="error-message"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer Image Section -->
+        <section class="footer-image">
+          <img src="nitro-pour.jpg" alt="Coffee being poured from tap" />
+          <div class="image-overlay">
+            <span class="location">Austin, TX</span>
+            <span class="brand">SD.</span>
+            <span class="contact">Contact</span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html> 
