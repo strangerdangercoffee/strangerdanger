@@ -1213,6 +1213,12 @@ section {
   color: #155724;
 }
 
+.notes-indicator {
+  margin-left: 8px;
+  font-size: 14px;
+  cursor: help;
+}
+
 .no-requests {
   text-align: center;
   padding: 40px 20px;

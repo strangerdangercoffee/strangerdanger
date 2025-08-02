@@ -152,6 +152,9 @@ function displayRequests(requests) {
     const statusClass = request.status === 'completed' ? 'completed' :
                        request.status === 'in-progress' ? 'in-progress' : 'pending';
 
+    const hasNotes = request.admin_notes && request.admin_notes.trim() !== '';
+    const notesIndicator = hasNotes ? '<span class="notes-indicator" title="Has admin notes">📝</span>' : '';
+    
     return `
       <tr class="request-row ${statusClass}">
         <td>${date}</td>
@@ -159,6 +162,7 @@ function displayRequests(requests) {
         <td>${request.service_name || 'N/A'}</td>
         <td>
           <span class="status-badge ${statusClass}">${request.status}</span>
+          ${notesIndicator}
         </td>
         <td>
           <button class="action-btn" onclick="openStatusModal('${request.id}', '${request.status}')">
@@ -256,12 +260,14 @@ function filterRequests() {
 function openStatusModal(requestId, currentStatus) {
   currentEditRequest = requestId;
   statusSelect.value = currentStatus;
-  statusNotes.value = '';
   
   const request = allRequests.find(r => r.id === requestId);
   if (request) {
     document.getElementById('status-modal-title').textContent = 
       `Update Status - ${request.business_name} - ${request.service_name}`;
+    
+    // Load existing notes if they exist
+    statusNotes.value = request.admin_notes || '';
   }
 
   statusModal.classList.remove('hidden');
