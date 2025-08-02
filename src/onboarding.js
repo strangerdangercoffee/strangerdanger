@@ -96,6 +96,17 @@ if (onboardingForm) {
     const phoneNumber = formData.get('phoneNumber');
     
     try {
+      // Submit form to Netlify first
+      const netlifyResponse = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+      
+      if (!netlifyResponse.ok) {
+        console.warn('Netlify form submission failed, but continuing with Supabase...');
+      }
+      
       // Insert profile data into Supabase
       const { data, error } = await supabase
         .from('profiles')
