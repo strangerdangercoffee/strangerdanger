@@ -53,21 +53,19 @@ if (contactForm) {
     }
     
     try {
-      // For now, we'll just show a success message
-      // In a real implementation, you would send this data to your server
-      showMessage('success', 'Thank you for your message! We\'ll get back to you soon.');
+      // Submit form to Netlify
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
       
-      // Clear the form
-      contactForm.reset();
-      
-      // Optional: You could integrate with a service like EmailJS, Formspree, or your own backend
-      // Example with EmailJS (would require EmailJS setup):
-      // emailjs.send('service_id', 'template_id', {
-      //   from_name: name,
-      //   from_email: email,
-      //   subject: subject,
-      //   message: message
-      // });
+      if (response.ok) {
+        showMessage('success', 'Thank you for your message! We\'ll get back to you soon.');
+        contactForm.reset();
+      } else {
+        throw new Error('Form submission failed');
+      }
       
     } catch (error) {
       showMessage('error', 'An error occurred while sending your message. Please try again.');

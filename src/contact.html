@@ -66,7 +66,8 @@
                 For general inquiries or any other questions, please reach out to our team below.
               </p>
               
-              <form class="contact-form" id="contact-form" method="POST" data-netlify="true">
+              <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true">
+                <input type="hidden" name="form-name" value="contact" />
                 <div class="form-group">
                   <label for="contact-name">Full Name *</label>
                   <input type="text" id="contact-name" name="name" required>
