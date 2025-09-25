@@ -298,8 +298,9 @@ async function submitServiceRequest() {
     // Send email notification to team
     if (data && data[0]) {
       await sendServiceRequestNotification(data[0]);
+      console.log("WE SENT THE EMAIL");
     }
-
+    console.log("we're showing success message now")
     showMessage('success', `${serviceNames[selectedServiceType]} request submitted successfully!`);
     
     // Reset the selection
