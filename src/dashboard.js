@@ -4,6 +4,14 @@ const supabase = window.supabase.createClient(
   window.SUPABASE_CONFIG.anonKey
 );
 
+// EmailJS Configuration for service request notifications
+const EMAILJS_SERVICE_ID = 'service_l9vlwek';
+const EMAILJS_TEMPLATE_ID = 'template_service_request'; // We'll create this template
+const EMAILJS_USER_ID = 'JmK0NPfX384DZPdfN';
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_USER_ID);
+
 // Global variables
 let currentUser = null;
 let userProfile = null;
@@ -37,6 +45,36 @@ function showMessage(type, message) {
 function hideMessages() {
   successMessage.classList.add('hidden');
   errorMessage.classList.add('hidden');
+}
+
+// Email notification function for service requests
+async function sendServiceRequestNotification(serviceRequest) {
+  try {
+    const templateParams = {
+      business_name: serviceRequest.business_name,
+      business_address: serviceRequest.business_address,
+      service_name: serviceRequest.service_name,
+      service_type: serviceRequest.service_type,
+      point_of_contact: userProfile.point_of_contact,
+      phone_number: userProfile.phone_number,
+      user_email: serviceRequest.email,
+      request_id: serviceRequest.id,
+      submission_date: new Date(serviceRequest.created_at).toLocaleDateString(),
+      submission_time: new Date(serviceRequest.created_at).toLocaleTimeString(),
+      admin_link: `${window.location.origin}/admin.html`
+    };
+
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      templateParams
+    );
+
+    console.log('Service request notification sent successfully');
+  } catch (error) {
+    console.error('Failed to send service request notification:', error);
+    // Don't show error to user as the request was still created successfully
+  }
 }
 
 // Authentication functions
@@ -242,6 +280,7 @@ async function submitServiceRequest() {
           service_type: selectedServiceType,
           service_name: serviceNames[selectedServiceType],
           status: 'pending',
+          email: userProfile.email,
           created_at: new Date().toISOString()
         }
       ]);
@@ -249,6 +288,11 @@ async function submitServiceRequest() {
     if (error) {
       showMessage('error', 'Failed to create service request: ' + error.message);
       return;
+    }
+
+    // Send email notification to team
+    if (data && data[0]) {
+      await sendServiceRequestNotification(data[0]);
     }
 
     showMessage('success', `${serviceNames[selectedServiceType]} request submitted successfully!`);

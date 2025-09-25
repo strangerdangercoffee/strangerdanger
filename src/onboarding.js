@@ -6,7 +6,7 @@ const supabase = window.supabase.createClient(
 
 // EmailJS Configuration (you'll need to set this up)
 // Replace with your actual EmailJS service ID and template ID
-const EMAILJS_SERVICE_ID = 'service_l9vlwek';
+const EMAILJS_SERVICE_ID = 'service_h42snoe';
 const EMAILJS_TEMPLATE_ID = 'template_50zp6p3';
 const EMAILJS_USER_ID = 'JmK0NPfX384DZPdfN';
 
