@@ -70,7 +70,6 @@ async function sendServiceRequestNotification(serviceRequest) {
       request_id: serviceRequest.id,
       submission_date: new Date().toLocaleDateString(),
       submission_time: new Date().toLocaleTimeString(),
-      admin_link: `${window.location.origin}/admin.html`
     };
 
     console.log('Sending email with params:', templateParams);
