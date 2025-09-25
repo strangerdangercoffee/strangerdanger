@@ -51,6 +51,10 @@ function hideMessages() {
 async function sendServiceRequestNotification(serviceRequest) {
   try {
     const templateParams = {
+      to_email: 'team@strangerdangercoffee.com',
+      to_name: 'Stranger Danger Coffee Team',
+      from_name: profileData.point_of_contact,
+      from_email: userData.email,
       business_name: serviceRequest.business_name,
       business_address: serviceRequest.business_address,
       service_name: serviceRequest.service_name,
@@ -67,7 +71,8 @@ async function sendServiceRequestNotification(serviceRequest) {
     await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_TEMPLATE_ID,
-      templateParams
+      templateParams,
+      EMAILJS_USER_ID
     );
 
     console.log('Service request notification sent successfully');
