@@ -59,20 +59,17 @@ async function sendServiceRequestNotification(serviceRequest) {
     console.log('EmailJS template ID:', EMAILJS_TEMPLATE_ID);
     console.log('EmailJS user ID:', EMAILJS_USER_ID);
     const templateParams = {
-      to_email: 'team@strangerdangercoffee.com',
-      to_name: 'Stranger Danger Coffee Team',
-      from_name: userProfile.point_of_contact || 'Customer',
-      from_email: serviceRequest.email,
+      name: profileData.point_of_contact,
       business_name: serviceRequest.business_name,
       business_address: serviceRequest.business_address,
       service_name: serviceRequest.service_name,
       service_type: serviceRequest.service_type,
       point_of_contact: userProfile.point_of_contact,
       phone_number: userProfile.phone_number,
-      user_email: serviceRequest.email,
+      user_email: userProfile.email,
       request_id: serviceRequest.id,
-      submission_date: new Date(serviceRequest.created_at).toLocaleDateString(),
-      submission_time: new Date(serviceRequest.created_at).toLocaleTimeString(),
+      submission_date: new Date().toLocaleDateString(),
+      submission_time: new Date().toLocaleTimeString(),
       admin_link: `${window.location.origin}/admin.html`
     };
 

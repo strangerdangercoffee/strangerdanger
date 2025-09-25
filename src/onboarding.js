@@ -42,10 +42,7 @@ async function sendTeamNotification(userData, profileData) {
 
     // Prepare email template parameters
     const templateParams = {
-      to_email: 'team@strangerdangercoffee.com',
-      to_name: 'Stranger Danger Coffee Team',
-      from_name: profileData.point_of_contact,
-      from_email: userData.email,
+      name: userData.name,
       business_name: profileData.business_name,
       business_address: profileData.business_address,
       office_size: profileData.office_size,
