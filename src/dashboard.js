@@ -50,11 +50,19 @@ function hideMessages() {
 // Email notification function for service requests
 async function sendServiceRequestNotification(serviceRequest) {
   try {
+    // Check if EmailJS is properly initialized
+    if (typeof emailjs === 'undefined') {
+      throw new Error('EmailJS is not loaded');
+    }
+    
+    console.log('EmailJS service ID:', EMAILJS_SERVICE_ID);
+    console.log('EmailJS template ID:', EMAILJS_TEMPLATE_ID);
+    console.log('EmailJS user ID:', EMAILJS_USER_ID);
     const templateParams = {
       to_email: 'team@strangerdangercoffee.com',
       to_name: 'Stranger Danger Coffee Team',
-      from_name: profileData.point_of_contact,
-      from_email: userData.email,
+      from_name: userProfile.point_of_contact || 'Customer',
+      from_email: serviceRequest.email,
       business_name: serviceRequest.business_name,
       business_address: serviceRequest.business_address,
       service_name: serviceRequest.service_name,
@@ -68,16 +76,22 @@ async function sendServiceRequestNotification(serviceRequest) {
       admin_link: `${window.location.origin}/admin.html`
     };
 
-    await emailjs.send(
+    console.log('Sending email with params:', templateParams);
+
+    const result = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_TEMPLATE_ID,
-      templateParams,
-      EMAILJS_USER_ID
+      templateParams
     );
 
-    console.log('Service request notification sent successfully');
+    console.log('Service request notification sent successfully:', result);
   } catch (error) {
     console.error('Failed to send service request notification:', error);
+    console.error('Error details:', {
+      message: error.message,
+      status: error.status,
+      text: error.text
+    });
     // Don't show error to user as the request was still created successfully
   }
 }
@@ -297,10 +311,12 @@ async function submitServiceRequest() {
 
     // Send email notification to team
     if (data && data[0]) {
+      console.log("About to send email notification for request:", data[0]);
       await sendServiceRequestNotification(data[0]);
-      console.log("WE SENT THE EMAIL");
+      console.log("Email notification attempt completed");
+    } else {
+      console.log("No data returned from service request creation");
     }
-    console.log("we're showing success message now")
     showMessage('success', `${serviceNames[selectedServiceType]} request submitted successfully!`);
     
     // Reset the selection
@@ -370,6 +386,41 @@ function displayServiceRequests(requests) {
 
   requestsList.innerHTML = requestsHtml;
 }
+
+// Test function for debugging EmailJS (call from browser console)
+window.testEmailJS = async function() {
+  console.log('Testing EmailJS setup...');
+  console.log('EmailJS loaded:', typeof emailjs !== 'undefined');
+  console.log('Service ID:', EMAILJS_SERVICE_ID);
+  console.log('Template ID:', EMAILJS_TEMPLATE_ID);
+  console.log('User ID:', EMAILJS_USER_ID);
+  
+  if (typeof emailjs === 'undefined') {
+    console.error('EmailJS is not loaded!');
+    return;
+  }
+  
+  try {
+    const testParams = {
+      to_email: 'team@strangerdangercoffee.com',
+      to_name: 'Test',
+      from_name: 'Test User',
+      from_email: 'test@example.com',
+      business_name: 'Test Business',
+      service_name: 'Test Service'
+    };
+    
+    const result = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      testParams
+    );
+    
+    console.log('Test email sent successfully:', result);
+  } catch (error) {
+    console.error('Test email failed:', error);
+  }
+};
 
 // Initialize dashboard when page loads
 document.addEventListener('DOMContentLoaded', loadUserProfile);
