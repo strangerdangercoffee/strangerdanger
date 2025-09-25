@@ -5,8 +5,8 @@ const supabase = window.supabase.createClient(
 );
 
 // EmailJS Configuration for service request notifications
-const EMAILJS_SERVICE_ID = 'service_l9vlwek';
-const EMAILJS_TEMPLATE_ID = 'template_service_request'; // We'll create this template
+const EMAILJS_SERVICE_ID = 'service_h42snoe';
+const EMAILJS_TEMPLATE_ID = 'template_bs44xai'; // We'll create this template
 const EMAILJS_USER_ID = 'JmK0NPfX384DZPdfN';
 
 // Initialize EmailJS
