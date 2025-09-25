@@ -304,12 +304,13 @@ async function submitServiceRequest() {
       showMessage('error', 'Failed to create service request: ' + error.message);
       return;
     }
-
+    showMessage("Okay about to send the email");
     // Send email notification to team
     if (data && data[0]) {
+      showMessage("I'm in the function to send email notification for request:", data[0]);
       console.log("About to send email notification for request:", data[0]);
       await sendServiceRequestNotification(data[0]);
-      console.log("Email notification attempt completed");
+      showMessage("Email notification attempt completed");
     } else {
       console.log("No data returned from service request creation");
     }
