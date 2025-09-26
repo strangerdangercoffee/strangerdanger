@@ -6,10 +6,11 @@ const supabase = window.supabase.createClient(
 
 // EmailJS Configuration for service request notifications
 const EMAILJS_SERVICE_ID = 'service_h42snoe';
-const EMAILJS_TEMPLATE_ID = 'template_bs44xai'; // We'll create this template
+const EMAILJS_TEMPLATE_ID = 'template_bs44xai'; // Make sure this matches your actual template ID
 const EMAILJS_USER_ID = 'JmK0NPfX384DZPdfN';
 
-// Initialize EmailJS
+// Initialize EmailJS with debugging
+console.log('Initializing EmailJS with User ID:', EMAILJS_USER_ID);
 emailjs.init(EMAILJS_USER_ID);
 
 // Global variables
@@ -47,43 +48,84 @@ function hideMessages() {
   errorMessage.classList.add('hidden');
 }
 
-// Email notification function for service requests
+// Enhanced email notification function with better debugging
 async function sendServiceRequestNotification(serviceRequest) {
+  console.log('🔄 Starting email notification process...');
+  console.log('Service Request Data:', serviceRequest);
+  
   try {
     // Check if EmailJS is available
     if (typeof emailjs === 'undefined') {
-      showMessage('error', 'EmailJS not loaded. Email notification skipped.');
+      console.error('❌ EmailJS not loaded!');
+      showMessage('error', 'EmailJS not loaded. Please refresh the page.');
       return;
     }
+    console.log('✅ EmailJS is available');
+
+    // Validate userProfile exists
+    if (!userProfile) {
+      console.error('❌ User profile not loaded!');
+      showMessage('error', 'User profile not loaded. Please refresh the page.');
+      return;
+    }
+    console.log('✅ User profile available:', userProfile);
 
     // Prepare email template parameters
     const templateParams = {
       name: userProfile.point_of_contact || 'Customer',
-      business_name: serviceRequest.business_name,
-      business_address: serviceRequest.business_address,
-      service_name: serviceRequest.service_name,
-      service_type: serviceRequest.service_type,
-      point_of_contact: userProfile.point_of_contact,
-      phone_number: userProfile.phone_number,
-      user_email: serviceRequest.email,
-      request_id: serviceRequest.id,
+      business_name: userProfile.business_name || 'Unknown Business',
+      business_address: userProfile.business_address || 'Address not provided',
+      service_name: serviceRequest.service_name || 'Unknown Service',
+      service_type: serviceRequest.service_type || 'unknown',
+      point_of_contact: userProfile.point_of_contact || 'Not specified',
+      phone_number: userProfile.phone_number || 'Not provided',
+      user_email: currentUser?.email || userProfile.email || 'No email',
+      request_id: serviceRequest.id || 'temp-' + Date.now(),
       submission_date: new Date().toLocaleDateString(),
       submission_time: new Date().toLocaleTimeString(),
       admin_link: `${window.location.origin}/admin.html`
     };
 
-    // Send email using EmailJS (same pattern as onboarding.js)
-    await emailjs.send(
+    console.log('📧 Template parameters:', templateParams);
+    console.log('📡 Sending email with config:', {
+      serviceId: EMAILJS_SERVICE_ID,
+      templateId: EMAILJS_TEMPLATE_ID,
+      userId: EMAILJS_USER_ID
+    });
+
+    // Send email using EmailJS with promise handling
+    const result = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_TEMPLATE_ID,
       templateParams,
       EMAILJS_USER_ID
     );
 
-    showMessage('success', 'Service request notification sent to team!');
+    console.log('✅ Email sent successfully:', result);
+    showMessage('success', 'Service request submitted and notification sent!');
+    return result;
+
   } catch (error) {
-    showMessage('error', 'Failed to send email notification: ' + error.message);
-    // Don't throw error - we don't want to fail the request if email fails
+    console.error('❌ EmailJS Error Details:', error);
+    console.error('Error status:', error.status);
+    console.error('Error text:', error.text);
+    
+    // More specific error messages
+    let errorMsg = 'Failed to send notification: ';
+    if (error.status === 400) {
+      errorMsg += 'Invalid template parameters or template not found';
+    } else if (error.status === 401) {
+      errorMsg += 'Authentication failed - check your EmailJS keys';
+    } else if (error.status === 404) {
+      errorMsg += 'Template or service not found';
+    } else if (error.status === 429) {
+      errorMsg += 'Rate limit exceeded';
+    } else {
+      errorMsg += error.text || error.message || 'Unknown error';
+    }
+    
+    showMessage('error', errorMsg);
+    throw error; // Re-throw so calling function knows it failed
   }
 }
 
@@ -112,6 +154,7 @@ async function loadUserProfile() {
     }
 
     currentUser = user;
+    console.log('Current user loaded:', currentUser);
 
     // Load user profile from database
     const { data: profile, error: profileError } = await supabase
@@ -132,6 +175,7 @@ async function loadUserProfile() {
     }
 
     userProfile = profile;
+    console.log('User profile loaded:', userProfile);
     displayProfileData();
     loadServiceRequests();
 
@@ -263,6 +307,8 @@ function selectService(serviceType) {
 }
 
 async function submitServiceRequest() {
+  console.log('🚀 Starting service request submission...');
+  
   if (!selectedServiceType) {
     showMessage('error', 'Please select a service first.');
     return;
@@ -280,6 +326,7 @@ async function submitServiceRequest() {
   };
 
   try {
+    // First, create the service request in the database
     const { data, error } = await supabase
       .from('service_requests')
       .insert([
@@ -290,15 +337,19 @@ async function submitServiceRequest() {
           service_type: selectedServiceType,
           service_name: serviceNames[selectedServiceType],
           status: 'pending',
-          email: userProfile.email,
+          email: currentUser.email || userProfile.email,
           created_at: new Date().toISOString()
         }
-      ]);
+      ])
+      .select(); // Add select() to get the returned data
 
     if (error) {
+      console.error('❌ Database error:', error);
       showMessage('error', 'Failed to create service request: ' + error.message);
       return;
     }
+
+    console.log('✅ Service request created in database:', data);
 
     // Create service request data for email notification
     const serviceRequestData = {
@@ -308,13 +359,21 @@ async function submitServiceRequest() {
       service_type: selectedServiceType,
       service_name: serviceNames[selectedServiceType],
       status: 'pending',
-      email: userProfile.email,
+      email: currentUser.email || userProfile.email,
       created_at: new Date().toISOString()
     };
 
+    console.log('📧 Attempting to send email notification...');
+    
     // Send email notification to team
-    await sendServiceRequestNotification(serviceRequestData);
-    showMessage('success', `${serviceNames[selectedServiceType]} request submitted successfully!`);
+    try {
+      await sendServiceRequestNotification(serviceRequestData);
+      showMessage('success', `${serviceNames[selectedServiceType]} request submitted and notification sent!`);
+    } catch (emailError) {
+      // Service request was created successfully, but email failed
+      console.error('Email failed, but service request was created:', emailError);
+      showMessage('success', `${serviceNames[selectedServiceType]} request submitted! (Note: Email notification may have failed)`);
+    }
     
     // Reset the selection
     selectedServiceType = null;
@@ -327,8 +386,8 @@ async function submitServiceRequest() {
     loadServiceRequests(); // Refresh the requests list
 
   } catch (error) {
+    console.error('❌ Unexpected error during service request submission:', error);
     showMessage('error', 'An unexpected error occurred while submitting service request.');
-    console.error('Service request error:', error);
   }
 }
 
@@ -384,7 +443,6 @@ function displayServiceRequests(requests) {
   requestsList.innerHTML = requestsHtml;
 }
 
-
 // Initialize dashboard when page loads
 document.addEventListener('DOMContentLoaded', loadUserProfile);
 
@@ -400,4 +458,36 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !editModal.classList.contains('hidden')) {
     closeModal();
   }
-}); 
+});
+
+// Test function to verify EmailJS setup (call from browser console)
+window.testEmailJS = async function() {
+  console.log('🧪 Testing EmailJS setup...');
+  
+  const testParams = {
+    name: 'Test User',
+    business_name: 'Test Business',
+    business_address: '123 Test St',
+    service_name: 'Coffee Refill',
+    service_type: 'coffee-refill',
+    point_of_contact: 'Test Contact',
+    phone_number: '555-0123',
+    user_email: 'test@example.com',
+    request_id: 'test-123',
+    submission_date: new Date().toLocaleDateString(),
+    submission_time: new Date().toLocaleTimeString(),
+    admin_link: `${window.location.origin}/admin.html`
+  };
+  
+  try {
+    const result = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      testParams,
+      EMAILJS_USER_ID
+    );
+    console.log('✅ Test email sent successfully:', result);
+  } catch (error) {
+    console.error('❌ Test email failed:', error);
+  }
+};
