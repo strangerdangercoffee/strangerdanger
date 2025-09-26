@@ -59,7 +59,7 @@ async function sendServiceRequestNotification(serviceRequest) {
     console.log('EmailJS template ID:', EMAILJS_TEMPLATE_ID);
     console.log('EmailJS user ID:', EMAILJS_USER_ID);
     const templateParams = {
-      name: profileData.point_of_contact,
+      name: userProfile.point_of_contact || 'Customer',
       business_name: serviceRequest.business_name,
       business_address: serviceRequest.business_address,
       service_name: serviceRequest.service_name,
@@ -304,6 +304,14 @@ async function submitServiceRequest() {
       showMessage('error', 'Failed to create service request: ' + error.message);
       return;
     }
+
+    // Debug: Let's see exactly what Supabase returns
+    showMessage("Supabase insert result:", { data, error });
+    showMessage("Data type:", typeof data);
+    showMessage("Data is array:", Array.isArray(data));
+    showMessage("Data length:", data ? data.length : 'data is null/undefined');
+    showMessage("Data[0]:", data ? data[0] : 'data is null/undefined');
+
     showMessage("Okay about to send the email");
     // Send email notification to team
     if (data && data[0]) {
@@ -313,6 +321,23 @@ async function submitServiceRequest() {
       showMessage("Email notification attempt completed");
     } else {
       console.log("No data returned from service request creation");
+      showMessage("No data returned from service request creation");
+      
+      // Alternative: Create service request object manually for email
+      const serviceRequestData = {
+        id: 'temp-' + Date.now(), // Temporary ID since we don't have the real one
+        business_name: userProfile.business_name,
+        business_address: userProfile.business_address,
+        service_type: selectedServiceType,
+        service_name: serviceNames[selectedServiceType],
+        status: 'pending',
+        email: userProfile.email,
+        created_at: new Date().toISOString()
+      };
+      
+      console.log("Using manually created service request data:", serviceRequestData);
+      await sendServiceRequestNotification(serviceRequestData);
+      showMessage("Email sent using manual data");
     }
     showMessage('success', `${serviceNames[selectedServiceType]} request submitted successfully!`);
     
