@@ -54,7 +54,8 @@ const jsFiles = [
     'contact.js',
     'dashboard.js',
     'index.js',
-    'onboarding.js'
+    'onboarding.js',
+    'reset-password.js'
 ];
 
 console.log('🔄 Processing JavaScript files...');
@@ -72,7 +73,8 @@ const htmlFiles = [
     'contact.html',
     'dashboard.html',
     'login.html',
-    'onboarding.html'
+    'onboarding.html',
+    'reset-password.html'
 ];
 
 console.log('🔄 Copying HTML files...');
