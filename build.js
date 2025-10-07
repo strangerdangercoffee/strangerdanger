@@ -74,7 +74,8 @@ const htmlFiles = [
     'dashboard.html',
     'login.html',
     'onboarding.html',
-    'reset-password.html'
+    'reset-password.html',
+    'current-coffee.html'
 ];
 
 console.log('🔄 Copying HTML files...');

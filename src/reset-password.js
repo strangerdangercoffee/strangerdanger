@@ -239,3 +239,5 @@ document.head.appendChild(style);
 
 // Initialize the page when it loads
 document.addEventListener('DOMContentLoaded', initializeResetPage);
+
+

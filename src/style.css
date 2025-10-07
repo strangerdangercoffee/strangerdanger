@@ -140,6 +140,13 @@ section {
   margin: 0 auto;
 }
 
+.coffee-button-section {
+  padding: 0px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .section-content {
   display: flex;
   align-items: center;
@@ -317,7 +324,8 @@ section {
   }
   
   .what-we-do .section-description,
-  .work-with-us .section-description {
+  .work-with-us .section-description,
+  .who-we-are .section-description {
     font-size: 28px;
   }
   
@@ -2132,3 +2140,324 @@ section {
     font-size: 20px;
   }
 } 
+
+/* Current Coffee Page Styles */
+.coffee-showcase {
+  padding: 140px 40px 80px;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.coffee-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.coffee-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.coffee-title {
+  font-family: 'Caprasimo', serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #2c2825;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.coffee-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  color: #666666;
+  font-weight: 400;
+}
+
+.coffee-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.coffee-image {
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.coffee-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.coffee-content {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.coffee-brand {
+  margin-bottom: 8px;
+}
+
+.roastery {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffc800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.coffee-name {
+  font-family: 'Caprasimo', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #2c2825;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.tasting-notes {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #ffc800;
+}
+
+.notes-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  color: #2c2825;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.coffee-description {
+  margin-bottom: 8px;
+}
+
+.coffee-description p {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  color: #666666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.coffee-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+  margin-top: 8px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: #2c2825;
+  font-weight: 500;
+}
+
+.coffee-link {
+  margin-top: 16px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.external-link {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffc800;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.external-link:hover {
+  color: #e6b400;
+}
+
+.external-link::after {
+  content: "↗";
+  font-size: 12px;
+}
+
+/* Responsive Design for Coffee Page */
+@media (max-width: 768px) {
+  .coffee-showcase {
+    padding: 120px 20px 60px;
+  }
+
+  .coffee-title {
+    font-size: 36px;
+  }
+
+  .coffee-subtitle {
+    font-size: 16px;
+  }
+
+  .coffee-card {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .coffee-image {
+    padding: 30px;
+  }
+
+  .coffee-content {
+    padding: 30px;
+  }
+
+  .coffee-name {
+    font-size: 28px;
+  }
+
+  .coffee-details {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .detail-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-label {
+    font-size: 11px;
+    min-width: 80px;
+  }
+
+  .detail-value {
+    font-size: 13px;
+    text-align: right;
+  }
+}
+
+/* Coffee-specific styles that extend existing design */
+.coffee-brand {
+  margin-bottom: 8px;
+}
+
+.coffee-button-section {
+  padding: 0px 0px;
+  margin-top: 0px;
+  margin-bottom: 200px;
+  display: center;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.roastery {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffc800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.coffee-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+  margin-top: 16px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: #2c2825;
+  font-weight: 500;
+}
+
+/* Responsive coffee details */
+@media (max-width: 768px) {
+  .coffee-details {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .detail-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-label {
+    font-size: 11px;
+    min-width: 80px;
+  }
+
+  .detail-value {
+    font-size: 13px;
+    text-align: right;
+  }
+}
