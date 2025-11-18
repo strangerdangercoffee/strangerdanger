@@ -1,5 +1,4 @@
-git diff
-abase Keep-Alive
+name: Supabase Keep-Alive
 
 on:
   schedule:
